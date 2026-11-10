@@ -1,0 +1,36 @@
+# ==========================================
+# 7. EXPORT PREDICTIONS TO EXCEL & CSV
+# ==========================================
+print("\n[STEP 7] Exporting Full Prediction Results to Excel & CSV...")
+
+# Create a clean DataFrame of Test Set Predictions
+export_df = pd.DataFrame({
+    'Actual_SOH_%': y_test_soh.values,
+    'XGBoost_Predicted_SOH_%': soh_preds,
+    'SOH_Error_%': np.abs(y_test_soh.values - soh_preds),
+    'True_Thermal_Anomaly': y_test_anom.values,
+    'Predicted_Thermal_Anomaly': anom_preds,
+    'Anomaly_Probability': anom_probs
+})
+
+# 1. Export as CSV (Lightweight, instant open)
+csv_filename = 'btms_prediction_results.csv'
+export_df.to_csv(csv_filename, index=False)
+print(f" -> CSV file created: '{csv_filename}'")
+
+# 2. Export as Excel Workbook (.xlsx)
+try:
+    excel_filename = 'btms_prediction_results.xlsx'
+    with pd.ExcelWriter(excel_filename, engine='openpyxl') as writer:
+        export_df.to_excel(writer, sheet_name='SOH_and_Anomaly_Predictions', index=False)
+        
+        # Add a secondary sheet for summary metrics
+        summary_df = pd.DataFrame({
+            'Metric': ['XGBoost SOH R2 Score', 'XGBoost SOH RMSE (%)', 'LSTM Thermal R2 Score', 'Classifier ROC-AUC'],
+            'Value': [r2_soh, rmse_soh, lstm_r2, roc_auc]
+        })
+        summary_df.to_excel(writer, sheet_name='Model_Performance_Summary', index=False)
+        
+    print(f" -> Excel Workbook created: '{excel_filename}'")
+except Exception as e:
+    print(f" Note: Excel export skipped. Ensure 'openpyxl' is installed (`pip install openpyxl`). CSV exported successfully.")

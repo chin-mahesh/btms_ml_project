@@ -1,0 +1,46 @@
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+
+/* Main App Background */
+.stApp {
+    background-color: #05070a;
+    background-image: radial-gradient(circle at top center, #111827 0%, #05070a 100%);
+}
+
+/* Push content container down so it never overlaps */
+.block-container {
+    padding-top: 4rem !important;
+    padding-bottom: 2rem !important;
+}
+
+/* Sidebar Background Matching */
+[data-testid="stSidebar"] {
+    background-color: #0b0f17;
+    background-image: linear-gradient(to bottom, #111827 0%, #05070a 100%);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Make sidebar buttons blend smoothly into the dark theme */
+[data-testid="stSidebar"] div.stButton > button {
+    background-color: #111827 !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 6px !important;
+    transition: all 0.3s ease;
+}
+[data-testid="stSidebar"] div.stButton > button:hover {
+    background-color: #1f2937 !important;
+    border-color: rgba(0, 210, 255, 0.4) !important;
+}
+
+.main-title {
+    font-size: 2.3rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0rem;
+}
+.sub-title {
+    font-size: 1.1rem;
+    color: #9ca3af;
+    margin-bottom: 2rem;
+}
